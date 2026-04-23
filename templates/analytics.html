@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Analytics Dashboard</h2>
+
+<div class="row">
+
+    <!-- 🔥 SUBJECT TOPPERS -->
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm mb-4">
+            <h5>Subject Toppers</h5>
+            <table class="table table-bordered mt-2">
+                <tr>
+                    <th>Subject</th>
+                    <th>Topper</th>
+                    <th>Mark</th>
+                </tr>
+                {% for t in toppers %}
+                <tr>
+                    <td>{{t[0]}}</td>
+                    <td>{{t[1]}}</td>
+                    <td>{{t[2]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <!-- 🔥 DEPARTMENT RANKING -->
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm mb-4">
+            <h5>Department Ranking</h5>
+            <table class="table table-bordered mt-2">
+                <tr>
+                    <th>Dept</th>
+                    <th>Average</th>
+                </tr>
+                {% for d in dept_rank %}
+                <tr>
+                    <td>{{d[0]}}</td>
+                    <td>{{d[1]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- 🔥 CHART -->
+<div class="card p-3 shadow-sm">
+    <h5>Subject Performance Chart</h5>
+    <canvas id="chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('chart');
+
+const labels = JSON.parse('{{ subjects | tojson | safe }}');
+const data = JSON.parse('{{ marks | tojson | safe }}');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Average Marks',
+            data: data,
+            borderWidth: 1
+        }]
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Edit Student</h2>
+
+<div style="background:white; padding:20px; border-radius:10px; width:400px;">
+
+<form method="POST">
+
+    <label>Name:</label><br>
+    <input type="text" name="name" value="{{student[1]}}" style="width:100%; padding:8px;"><br><br>
+
+    <label>Age:</label><br>
+    <input type="number" name="age" value="{{student[2]}}" style="width:100%; padding:8px;"><br><br>
+
+    <button type="submit" class="btn">Update</button>
+
+</form>
+
+</div>
+
+{% endblock %}

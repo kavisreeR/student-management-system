@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Performance Chart</h3>
+
+<canvas id="myChart"></canvas>
+
+<script>
+const ctx = document.getElementById('myChart');
+
+const labels = JSON.parse('{{ subjects | tojson | safe }}');
+const marks = JSON.parse('{{ marks | tojson | safe }}');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Average Marks',
+            data: marks,
+            borderWidth: 1
+        }]
+    }
+});
+</script>
+
+{% endblock %}

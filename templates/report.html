@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Student Report</h3>
+    <a href="/download_report" class="btn btn-success btn-sm">Download PDF</a>
+</div>
+
+<div class="card shadow-sm p-3">
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover table-striped">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Reg No</th>
+                    <th>Name</th>
+                    <th>CN</th>
+                    <th>DAA</th>
+                    <th>TOC</th>
+                    <th>WT</th>
+                    <th>DBMS</th>
+                    <th>Total</th>
+                    <th>Avg</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in data %}
+                <tr>
+                    <td>{{r[0]}}</td>
+                    <td>{{r[1]}}</td>
+                    <td>{{r[2] or '-'}}</td>
+                    <td>{{r[3] or '-'}}</td>
+                    <td>{{r[4] or '-'}}</td>
+                    <td>{{r[5] or '-'}}</td>
+                    <td>{{r[6] or '-'}}</td>
+                    <td><b>{{r[7]}}</b></td>
+                    <td class="
+{% if r[8] is not none and r[8] >= 50 %}
+    text-success
+{% else %}
+    text-danger
+{% endif %}
+">
+    {{ r[8] if r[8] is not none else '-' }}
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Edit Mark</h3>
+
+<div class="card p-3 shadow-sm" style="max-width:400px;">
+
+<form method="POST">
+
+    <p><b>Student:</b> {{mark[1]}}</p>
+    <p><b>Subject:</b> {{mark[2]}}</p>
+
+    <input type="number" name="mark" value="{{mark[3]}" class="form-control mb-3">
+
+    <button class="btn btn-primary">Update</button>
+
+</form>
+
+</div>
+
+{% endblock %}
