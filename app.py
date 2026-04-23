@@ -15,6 +15,10 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
+@app.route('/')
+def home():
+    return redirect('/dashboard')
+
 # 🔹 Login
 @app.route('/', methods=['GET', 'POST'])
 def login():
