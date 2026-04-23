@@ -16,15 +16,11 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
-# ---------------- ROOT ROUTE ----------------
-
-@app.route('/')
-def home():
-    return "APP WORKING"
-
+# ---------------- ROOT ----------------
 @app.route('/')
 def home():
     return redirect('/login')
+
 
 # ---------------- LOGIN ----------------
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,6 +45,7 @@ def login():
 
     return render_template('login.html')
 
+
 # ---------------- DASHBOARD ----------------
 @app.route('/dashboard')
 def dashboard():
@@ -61,7 +58,7 @@ def dashboard():
     cursor.execute("SELECT COUNT(*) FROM department")
     total_depts = cursor.fetchone()[0]
 
-    cursor.execute("SELECT ROUND(AVG(mark),2) FROM marks")
+    cursor.execute("SELECT IFNULL(ROUND(AVG(mark),2),0) FROM marks")
     avg_marks = cursor.fetchone()[0]
 
     return render_template(
@@ -70,6 +67,7 @@ def dashboard():
         total_depts=total_depts,
         avg_marks=avg_marks
     )
+
 
 # ---------------- ADD STUDENT ----------------
 @app.route('/add', methods=['POST'])
@@ -101,6 +99,7 @@ def add_student():
     conn.commit()
     return redirect('/students')
 
+
 # ---------------- STUDENTS ----------------
 @app.route('/students')
 def students():
@@ -120,7 +119,8 @@ def students():
 
     return render_template('students.html', students=data, depts=depts)
 
-# ---------------- MARKS (UPDATE + INSERT FIXED) ----------------
+
+# ---------------- MARKS ----------------
 @app.route('/marks', methods=['GET', 'POST'])
 def marks():
     if 'user' not in session:
@@ -166,7 +166,8 @@ def marks():
 
     return render_template('marks.html', students=students, marks=marks_data)
 
-# ---------------- REPORT (FIX NULL ISSUE) ----------------
+
+# ---------------- REPORT ----------------
 @app.route('/report')
 def report():
     if 'user' not in session:
@@ -193,8 +194,8 @@ def report():
     """)
 
     data = cursor.fetchall()
-
     return render_template('report.html', data=data)
+
 
 # ---------------- DELETE ----------------
 @app.route('/delete/<int:id>')
@@ -210,11 +211,13 @@ def delete(id):
 
     return redirect('/students')
 
+
 # ---------------- LOGOUT ----------------
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
+
 
 # ---------------- RUN ----------------
 if __name__ == '__main__':
