@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 from flask import Flask, render_template, request, redirect, session
 import mysql.connector
 from reportlab.platypus import SimpleDocTemplate, Table
@@ -7,12 +9,14 @@ app = Flask(__name__)
 app.secret_key = "secret123"
 
 # ---------------- DB CONNECTION ----------------
-conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="K2007",
-    database="student_db"
-)
+DB_HOST = os.environ.get("MYSQLHOST")
+DB_USER = os.environ.get("MYSQLUSER")
+DB_PASS = os.environ.get("MYSQLPASSWORD")
+DB_NAME = os.environ.get("MYSQLDATABASE")
+DB_PORT = os.environ.get("MYSQLPORT", 3306)
+
+
+
 
 cursor = conn.cursor()
 
